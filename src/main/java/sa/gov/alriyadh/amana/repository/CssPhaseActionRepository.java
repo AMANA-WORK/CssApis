@@ -39,7 +39,7 @@ public interface CssPhaseActionRepository extends JpaRepository<CssPhaseAction, 
             "         AND AC.CHILD_PHASE_ID = PH_CHILD.PHASE_ID\n" +
             "         AND PH_CHILD.FROM_ROLE_NO = :userRole\n" +
             "         AND AC.PHASE_ACTION_ID =:actionId\n" +
-            "RDER BY AC.ACTION_ORDER ASC", nativeQuery = true)
-    List<PhaseActionDetailView[]> getRoleActionDetail(@Param("userRole") Integer userRole, @Param("actionId") Integer actionId);
+            "ORDER BY AC.ACTION_ORDER ASC", nativeQuery = true)
+    PhaseActionDetailView getRoleActionDetail(@Param("userRole") Integer userRole, @Param("actionId") Integer actionId);
 
 }

@@ -21,7 +21,7 @@ public class PhaseActionService implements IPhaseActionService {
     }
 
     @Override
-    public List<PhaseActionDetailView[]> getRoleActionDetail(Integer userRole, Integer actionId) {
+    public PhaseActionDetailView getRoleActionDetail(Integer userRole, Integer actionId) {
         return actionRepository.getRoleActionDetail(userRole, actionId);
     }
 

@@ -8,13 +8,13 @@ import sa.gov.alriyadh.amana.dto.response.GenericApiResponse;
 import sa.gov.alriyadh.amana.entity.CssEventType;
 import sa.gov.alriyadh.amana.entity.CssParticipationType;
 import sa.gov.alriyadh.amana.entity.CssRole;
+import sa.gov.alriyadh.amana.pojo.RequestPhase;
 import sa.gov.alriyadh.amana.pojo.RoleActionView;
-import sa.gov.alriyadh.amana.services.EventTypeService;
-import sa.gov.alriyadh.amana.services.ParticipationTypeService;
-import sa.gov.alriyadh.amana.services.PhaseActionService;
-import sa.gov.alriyadh.amana.services.RolesService;
+import sa.gov.alriyadh.amana.services.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/css/api/services/")
@@ -29,8 +29,13 @@ public class ServiceController {
 
 	@Autowired
 	ParticipationTypeService participationTypeService;
+
 	@Autowired
 	PhaseActionService phaseActionService;
+
+	@Autowired
+	RequestService requestService;
+
 
 	@GetMapping("/userRoles")
 	public GenericApiResponse<?> getCssUserRoles(){
@@ -56,5 +61,10 @@ public class ServiceController {
 		return GenericApiResponse.returnJsonTemp("0",null,roleActions);
 	}
 
+	@PostMapping("/addRequestPhase")
+	public GenericApiResponse<?> addRequestPhase(@Valid @RequestBody RequestPhase requestPhase){
+		Map<String, Object> output = requestService.addRequestPhase(requestPhase);
+		return GenericApiResponse.returnJsonTemp("0",null,output);
+	}
 
 }
