@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
-@Configuration
+//@Configuration
 public class ResourceServerEndpointConfig extends ResourceServerConfigurerAdapter {
 
     @Value("${token.server.url}")
