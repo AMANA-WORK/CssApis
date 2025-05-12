@@ -46,6 +46,7 @@ public class RequestService implements IRequestService {
             cssRequestPhase.setFromRoleId(actionDetail.getFromRoleNo());
             cssRequestPhase.setToRoleId(actionDetail.getToRoleNo());
             cssRequestPhase.setNotes(requestPhase.getNotes());
+            cssRequestRepository.save(request.get());
             cssRequestPhaseRepository.save(cssRequestPhase);
             output.put("output", "Operation successful.");
             output.put("RequestNO", requestPhase.getRequestNO());

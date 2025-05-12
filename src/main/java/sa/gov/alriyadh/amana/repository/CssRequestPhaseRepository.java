@@ -8,6 +8,6 @@ import sa.gov.alriyadh.amana.entity.CssRequestPhase;
 public interface CssRequestPhaseRepository extends JpaRepository<CssRequestPhase, Long>{
 
     @Query(value = "SELECT COALESCE(MAX(request_phase_serial), 0) + 1 AS nextSerial " +
-            "FROM css_request_phases WHERE request_no=:requestNo", nativeQuery = true)
+            "FROM CSS.css_request_phases WHERE request_no=:requestNo", nativeQuery = true)
     Integer getNextSerial(@Param("requestNo") long requestNo);
 }

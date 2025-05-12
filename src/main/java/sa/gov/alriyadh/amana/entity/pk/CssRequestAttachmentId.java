@@ -1,6 +1,8 @@
 package sa.gov.alriyadh.amana.entity.pk;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
@@ -13,6 +15,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
 public class CssRequestAttachmentId implements Serializable {
     private static final long serialVersionUID = -9132004621902457029L;
     @NotNull
@@ -21,7 +25,7 @@ public class CssRequestAttachmentId implements Serializable {
 
     @NotNull
     @Column(name = "ATTACHE_SERIAL", nullable = false)
-    private Short attacheSerial;
+    private Integer attacheSerial;
 
     @Override
     public boolean equals(Object o) {
