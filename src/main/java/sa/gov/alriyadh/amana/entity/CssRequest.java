@@ -19,11 +19,11 @@ public class CssRequest {
     @SequenceGenerator(name = "CSS_REQUESTS_SEQ", sequenceName = "CSS_REQUESTS_SEQ", allocationSize = 1,schema = "CSS")
     private Long requestNo;
 
-    @NotNull
+    //@NotNull
     @Column(name = "REQUEST_DATE", nullable = false)
     private LocalDate requestDate;
 
-    @NotNull
+    //@NotNull
     @Column(name = "REQUEST_PHASE_ID", nullable = false)
     private Integer requestPhaseId;
 
@@ -33,7 +33,7 @@ public class CssRequest {
     private String employeeCode;
 
     @Size(max = 11)
-    @NotNull
+    //@NotNull
     @Column(name = "MOBILE_NO", nullable = false, length = 11)
     private String mobileNo;
 
@@ -72,14 +72,15 @@ public class CssRequest {
     @Column(name = "COUNTRY_CODE")
     private Integer countryCode;
 
-    @Column(name = "CITY_CODE")
-    private Integer cityCode;
+    @Size(max = 200)
+    @Column(name = "CITY_NAME")
+    private String cityName;
 
-    @NotNull
+    //@NotNull
     @Column(name = "PARTICIPATION_NUMBER", nullable = false)
     private Integer participationNumber;
 
-    @NotNull
+    //@NotNull
     @Column(name = "COSTS_COVERED", nullable = false)
     private Integer costsCovered;
 

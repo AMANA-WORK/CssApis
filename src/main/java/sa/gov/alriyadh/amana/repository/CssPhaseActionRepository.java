@@ -15,8 +15,8 @@ public interface CssPhaseActionRepository extends JpaRepository<CssPhaseAction, 
             "         PH_CHILD.PHASE_NAME      actionName,\n" +
             "         ph_child.phase_desc      statusDesc,\n" +
             "         PH_CHILD.FROM_ROLE_NO    roleNo\n" +
-            "    FROM CSS_PHASE_ACTIONS AC,\n" +
-            "         CSS_PHASES       PH_CHILD\n" +
+            "    FROM CSS.CSS_PHASE_ACTIONS AC,\n" +
+            "         CSS.CSS_PHASES       PH_CHILD\n" +
             "   WHERE    \n" +
             "         AC.CHILD_PHASE_ID = PH_CHILD.PHASE_ID\n" +
             "         AND PH_CHILD.FROM_ROLE_NO = :userRole\n" +
@@ -32,9 +32,9 @@ public interface CssPhaseActionRepository extends JpaRepository<CssPhaseAction, 
             "         PH_CHILD.phase_desc      toPhaseDesc,\n" +
             "         PH_CHILD.FROM_ROLE_NO    fromRoleNo,\n" +
             "         PH_CHILD.TO_ROLE_NO      toRoleNo\n" +
-            "    FROM CSS_PHASE_ACTIONS AC,\n" +
-            "         CSS_PHASES       PH_PARENT,\n" +
-            "         CSS_PHASES       PH_CHILD\n" +
+            "    FROM CSS.CSS_PHASE_ACTIONS AC,\n" +
+            "         CSS.CSS_PHASES       PH_PARENT,\n" +
+            "         CSS.CSS_PHASES       PH_CHILD\n" +
             "   WHERE     AC.PARENT_PHASE_ID = PH_PARENT.PHASE_ID\n" +
             "         AND AC.CHILD_PHASE_ID = PH_CHILD.PHASE_ID\n" +
             "         AND PH_CHILD.FROM_ROLE_NO = :userRole\n" +

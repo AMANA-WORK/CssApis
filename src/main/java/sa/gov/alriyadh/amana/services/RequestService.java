@@ -3,8 +3,10 @@ package sa.gov.alriyadh.amana.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sa.gov.alriyadh.amana.dto.CssRequestDto;
 import sa.gov.alriyadh.amana.entity.CssRequest;
 import sa.gov.alriyadh.amana.entity.CssRequestPhase;
+import sa.gov.alriyadh.amana.mapper.CssRequestMapper;
 import sa.gov.alriyadh.amana.pojo.PhaseActionDetailView;
 import sa.gov.alriyadh.amana.pojo.RequestPhase;
 import sa.gov.alriyadh.amana.repository.CssPhaseActionRepository;
@@ -13,9 +15,7 @@ import sa.gov.alriyadh.amana.repository.CssRequestRepository;
 import sa.gov.alriyadh.amana.srinterface.IRequestService;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RequestService implements IRequestService {
@@ -26,6 +26,49 @@ public class RequestService implements IRequestService {
     CssRequestPhaseRepository cssRequestPhaseRepository;
     @Autowired
     CssRequestRepository cssRequestRepository;
+
+    @Autowired
+    CssRequestMapper mapper;
+
+    @Override
+    public List<Object[]> getDirectorates(Integer dirType) {
+        return cssRequestRepository.getDirectorates(dirType);
+    }
+
+    @Override
+    public List<Object[]> getCountries() {
+        return cssRequestRepository.getCountries();
+    }
+
+    @Override
+    public Map<String, Object> addNewRequest(CssRequestDto cssRequestDto) {
+        Map<String, Object> output = new LinkedHashMap<>();
+        CssRequest entity = mapper.toEntity(cssRequestDto); // sets requestDate = now
+        entity.setRequestPhaseId(1);
+        CssRequest request = cssRequestRepository.save(entity);
+        CssRequestDto savedRequestDto = mapper.toDto(request); // return full DTO with generated requestNo and formatted dates
+        PhaseActionDetailView actionDetail = cssPhaseActionRepository.getRoleActionDetail(1, 1);
+        Integer nextRequestPhaseSerial = cssRequestPhaseRepository.getNextSerial(savedRequestDto.getRequestNo());
+
+        CssRequestPhase cssRequestPhase = new CssRequestPhase();
+        cssRequestPhase.setRequestNo(savedRequestDto.getRequestNo());
+        cssRequestPhase.setRequestPhaseSerial(nextRequestPhaseSerial);
+        cssRequestPhase.setCreateDate(LocalDate.now());
+        cssRequestPhase.setCreateUser(savedRequestDto.getEmployeeCode());
+        cssRequestPhase.setFromPhaseId(actionDetail.getFromPhaseId());
+        cssRequestPhase.setToPhaseId(actionDetail.getToPhaseId());
+        cssRequestPhase.setFromRoleId(actionDetail.getFromRoleNo());
+        cssRequestPhase.setToRoleId(actionDetail.getToRoleNo());
+        cssRequestPhase.setNotes(actionDetail.getFromPhaseDesc());
+        cssRequestRepository.save(request);
+        cssRequestPhaseRepository.save(cssRequestPhase);
+        output.put("output", "Operation successful.");
+        output.put("RequestNO", savedRequestDto.getRequestNo());
+        output.put("RequestStatus", actionDetail.getToPhaseDesc());
+
+        return output;
+    }
+
 
     @Override
     @Transactional
