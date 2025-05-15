@@ -79,10 +79,10 @@ public class LoggingAspect {
 			}else {
 				payload = "No Input Received";
 			}
-			log.info(" for the Method : " + uri.getPath() + " Request received : {}", payload);
+			//log.info(" for the Method : " + uri.getPath() + " Request received : {}", payload);
 			Date beforeDate = new Date();
 			response = joinPoint.proceed();
-			log.info(" for the Method :" + joinPoint.getSignature().getName() + " Response received : {}", response);
+			//log.info(" for the Method :" + joinPoint.getSignature().getName() + " Response received : {}", response);
 
 			//set audit method parameters.
 			String clientIp = request.getHeader("X-FORWARDED-FOR") == null ? request.getRemoteAddr() : request.getHeader("X-FORWARDED-FOR");  //Client IP Address

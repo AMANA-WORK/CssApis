@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDate;
 import java.util.Base64;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -30,7 +31,7 @@ public class FileUtil {
 				created = targetFile.getParentFile().mkdirs();
 			}
 			if (!targetFile.exists()) {
-				System.out.println("file not exsists");
+				System.out.println("file not exsists : " + filePath);
 				targetFile.createNewFile();
 				byte[] data = DatatypeConverter.parseBase64Binary(base64);
 				outputStream = new BufferedOutputStream(new FileOutputStream(targetFile));
@@ -57,10 +58,11 @@ public class FileUtil {
 		return created;
 	}
 
-	public static String encodeFileToBase64Binary(File file) {
+	public static String encodeFileToBase64Binary(String filePath) {
 		String encodedfile = null;
 		FileInputStream fileInputStreamReader = null;
 		try {
+			File file = new File(filePath);
 			fileInputStreamReader = new FileInputStream(file);
 			byte[] bytes = new byte[(int) file.length()];
 			fileInputStreamReader.read(bytes);
@@ -104,6 +106,18 @@ public class FileUtil {
 			e.printStackTrace();
 		}
 		return base64EncodedPdf;
+	}
+
+	public static String getApiFileRoot(){
+		LocalDate today = LocalDate.now();
+		String year = String.valueOf(today.getYear());
+		String month = String.format("%02d", today.getMonthValue());
+		String separator = FileUtil.getSystemSeparator();
+		return separator+ "img"+separator+"CSS" + separator + year + separator + month + separator;
+	}
+
+	public static String getFileBase64Extention(String base64){
+		return base64.split(";")[0].split("/")[1];
 	}
 
 }

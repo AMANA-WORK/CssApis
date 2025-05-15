@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class CssRequestAttachmentDto {
     private Long requestNo;
     private Integer attacheSerial;
-    private String fileBase64; // <- contains file content, not path!
     private String fileDesc;
+    private String fileBase64; // <- contains file content, not path!
 }

@@ -8,7 +8,9 @@ import sa.gov.alriyadh.amana.dto.CssRequestDto;
 import sa.gov.alriyadh.amana.dto.response.GenericApiResponse;
 import sa.gov.alriyadh.amana.entity.CssEventType;
 import sa.gov.alriyadh.amana.entity.CssParticipationType;
+import sa.gov.alriyadh.amana.entity.CssRequestAttachment;
 import sa.gov.alriyadh.amana.entity.CssRole;
+import sa.gov.alriyadh.amana.entity.dto.CssRequestAttachmentDto;
 import sa.gov.alriyadh.amana.pojo.DirTypeData;
 import sa.gov.alriyadh.amana.pojo.RequestPhase;
 import sa.gov.alriyadh.amana.pojo.RoleActionView;
@@ -40,6 +42,9 @@ public class ServiceController {
 
 	@Autowired
 	DirTypeData dirTypeData;
+
+	@Autowired
+	RequestAttachmentService requestAttachmentService;
 
 
 	@GetMapping("/roles")
@@ -93,6 +98,18 @@ public class ServiceController {
 	public GenericApiResponse<?> addRequestPhase(@Valid @RequestBody RequestPhase requestPhase){
 		Map<String, Object> output = requestService.addRequestPhase(requestPhase);
 		return GenericApiResponse.returnJsonTemp("0",null,output);
+	}
+
+	@PostMapping("/addRequestAttach")
+	public GenericApiResponse<?> addRequestAttach(@Valid @RequestBody CssRequestAttachmentDto cssRequestAttachmentDto){
+		Map<String, Object> output = requestAttachmentService.insertNewAttach(cssRequestAttachmentDto);
+		return GenericApiResponse.returnJsonTemp("0",null,output);
+	}
+
+	@GetMapping("/reqAttachments/{requestNo}")
+	public GenericApiResponse<?> getReqAttachments(@PathVariable(required = true) Long requestNo) {
+		List<CssRequestAttachmentDto>  attachments = requestAttachmentService.getRequestAttachments(requestNo);
+		return GenericApiResponse.returnJsonTemp("0",null,attachments);
 	}
 
 }
