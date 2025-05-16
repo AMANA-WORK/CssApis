@@ -112,4 +112,10 @@ public class ServiceController {
 		return GenericApiResponse.returnJsonTemp("0",null,attachments);
 	}
 
+	@GetMapping("/requestByNumber/{requestNo}")
+	public GenericApiResponse<?> getReqByRequestNo(@PathVariable(required = true) Long requestNo) {
+		List<CssRequestDto>  requests = requestService.findByRequestNo(requestNo);
+		return GenericApiResponse.returnJsonTemp("0",null,requests);
+	}
+
 }

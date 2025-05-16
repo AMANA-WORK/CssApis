@@ -2,11 +2,13 @@ package sa.gov.alriyadh.amana.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,7 +23,7 @@ public class CssRequest {
 
     //@NotNull
     @Column(name = "REQUEST_DATE", nullable = false)
-    private LocalDate requestDate;
+    private LocalDateTime requestDate;
 
     //@NotNull
     @Column(name = "REQUEST_PHASE_ID", nullable = false)
@@ -47,7 +49,7 @@ public class CssRequest {
 
     @NotNull
     @Column(name = "EVENT_DATE", nullable = false)
-    private LocalDate eventDate;
+    private LocalDateTime eventDate;
 
     @Size(max = 200)
     @Column(name = "SCIENTIFIC_PAPER", length = 200)
@@ -83,5 +85,8 @@ public class CssRequest {
     //@NotNull
     @Column(name = "COSTS_COVERED", nullable = false)
     private Integer costsCovered;
+
+    @Formula("(SELECT p.phase_desc FROM CSS.css_phases p WHERE p.phase_id = request_phase_id)")
+    private String requestStatus;
 
 }

@@ -17,6 +17,7 @@ import sa.gov.alriyadh.amana.srinterface.IRequestService;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RequestService implements IRequestService {
@@ -112,5 +113,12 @@ public class RequestService implements IRequestService {
         }
 
         return output;
+    }
+
+    @Override
+    public List<CssRequestDto> findByRequestNo(Long requestNo) {
+        return cssRequestRepository.findByRequestNo(requestNo).stream()
+                .map(cssRequest -> mapper.toDto(cssRequest))
+                .collect(Collectors.toList());
     }
 }

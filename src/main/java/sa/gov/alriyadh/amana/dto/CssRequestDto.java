@@ -15,6 +15,9 @@ public class CssRequestDto {
     private String requestDate;
     private Integer requestPhaseId;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String requestStatus;
+
     @NotNull(message = "EmployeeCode is required")
     private String employeeCode;
 
@@ -42,4 +45,5 @@ public class CssRequestDto {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<CssRequestAttachmentDto> attachments;
+
 }

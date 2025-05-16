@@ -17,4 +17,6 @@ public interface CssRequestRepository extends JpaRepository<CssRequest, Long> {
     @Query(value = "SELECT COUNTRY_CODE, COUNTRY_NAME FROM CMNV3.CMN_COUNTRIES ORDER BY 1", nativeQuery = true)
     List<Object[]> getCountries();
 
+    List<CssRequest> findByRequestNo(Long requestNo);
+
 }

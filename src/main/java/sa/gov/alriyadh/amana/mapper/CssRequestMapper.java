@@ -16,13 +16,14 @@ public interface CssRequestMapper {
 
     @Mappings({
             @Mapping(source = "eventDate", target = "eventDate", qualifiedByName = "localDateToString"),
-            @Mapping(source = "requestDate", target = "requestDate", qualifiedByName = "localDateToString")
+            @Mapping(source = "requestDate", target = "requestDate", qualifiedByName = "localDateToString"),
+            @Mapping(source = "requestStatus", target = "requestStatus")
     })
     CssRequestDto toDto(CssRequest entity);
 
     @Mappings({
             @Mapping(source = "eventDate", target = "eventDate", qualifiedByName = "stringToLocalDate"),
-            @Mapping(target = "requestDate", expression = "java(java.time.LocalDate.now())")
+            @Mapping(target = "requestDate", expression = "java(java.time.LocalDateTime.now())")
     })
     CssRequest toEntity(CssRequestDto dto);
 
