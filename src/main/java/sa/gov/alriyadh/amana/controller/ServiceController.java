@@ -102,8 +102,8 @@ public class ServiceController {
 
 	@PostMapping("/addRequestAttach")
 	public GenericApiResponse<?> addRequestAttach(@Valid @RequestBody CssRequestAttachmentDto cssRequestAttachmentDto){
-		Map<String, Object> output = requestAttachmentService.insertNewAttach(cssRequestAttachmentDto);
-		return GenericApiResponse.returnJsonTemp("0",null,output);
+		CssRequestAttachment reqttachment = requestAttachmentService.insertNewAttach(cssRequestAttachmentDto);
+		return GenericApiResponse.returnJsonTemp("0",null,reqttachment);
 	}
 
 	@GetMapping("/reqAttachments/{requestNo}")

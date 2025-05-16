@@ -8,6 +8,6 @@ import java.util.Map;
 
 public interface IRequestAttachmentService {
 
-    Map<String, Object> insertNewAttach(CssRequestAttachmentDto cssRequestAttachmentDto);
+    CssRequestAttachment insertNewAttach(CssRequestAttachmentDto cssRequestAttachmentDto);
     List<CssRequestAttachmentDto> getRequestAttachments(Long requestNo);
 }

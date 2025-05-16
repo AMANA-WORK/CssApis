@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sa.gov.alriyadh.amana.dto.CssRequestDto;
 import sa.gov.alriyadh.amana.entity.CssRequest;
 import sa.gov.alriyadh.amana.entity.CssRequestPhase;
+import sa.gov.alriyadh.amana.entity.dto.CssRequestAttachmentDto;
 import sa.gov.alriyadh.amana.mapper.CssRequestMapper;
 import sa.gov.alriyadh.amana.pojo.PhaseActionDetailView;
 import sa.gov.alriyadh.amana.pojo.RequestPhase;
@@ -26,7 +27,8 @@ public class RequestService implements IRequestService {
     CssRequestPhaseRepository cssRequestPhaseRepository;
     @Autowired
     CssRequestRepository cssRequestRepository;
-
+    @Autowired
+    RequestAttachmentService requestAttachmentService;
     @Autowired
     CssRequestMapper mapper;
 
@@ -60,8 +62,18 @@ public class RequestService implements IRequestService {
         cssRequestPhase.setFromRoleId(actionDetail.getFromRoleNo());
         cssRequestPhase.setToRoleId(actionDetail.getToRoleNo());
         cssRequestPhase.setNotes(actionDetail.getFromPhaseDesc());
+        //Save request entity edits (requestPhaseId).
         cssRequestRepository.save(request);
+        //Save the new cssRequestPhase entity.
         cssRequestPhaseRepository.save(cssRequestPhase);
+        //Save request attachments if exist in cssRequestDto.
+        if(cssRequestDto.getAttachments() != null && !cssRequestDto.getAttachments().isEmpty()) {
+            for(CssRequestAttachmentDto attachmentDto : cssRequestDto.getAttachments() ) {
+                attachmentDto.setRequestNo(request.getRequestNo());
+                requestAttachmentService.insertNewAttach(attachmentDto);
+            }
+        }
+
         output.put("output", "Operation successful.");
         output.put("RequestNO", savedRequestDto.getRequestNo());
         output.put("RequestStatus", actionDetail.getToPhaseDesc());

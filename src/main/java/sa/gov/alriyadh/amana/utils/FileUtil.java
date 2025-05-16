@@ -25,31 +25,29 @@ public class FileUtil {
 	public static boolean createFile(String filePath, String base64) {
 		boolean created = false;
 		OutputStream outputStream = null;
+
 		try {
+			// Remove the data:image/...;base64, part if it exists
+			if (base64.contains(",")) {
+				base64 = base64.substring(base64.indexOf(",") + 1);
+			}
+
 			File targetFile = new File(filePath);
 			if (!targetFile.getParentFile().exists()) {
 				created = targetFile.getParentFile().mkdirs();
 			}
-			if (!targetFile.exists()) {
-				System.out.println("file not exsists : " + filePath);
-				targetFile.createNewFile();
-				byte[] data = DatatypeConverter.parseBase64Binary(base64);
-				outputStream = new BufferedOutputStream(new FileOutputStream(targetFile));
-				outputStream.write(data);
-				outputStream.close();
-				created = true;
-			} else {
-				System.err.println("file exsists");
-				byte[] data = DatatypeConverter.parseBase64Binary(base64);
-				outputStream = new BufferedOutputStream(new FileOutputStream(targetFile));
-				outputStream.write(data);
-				created = true;
-			}
+
+			byte[] data = Base64.getDecoder().decode(base64);
+			outputStream = new BufferedOutputStream(new FileOutputStream(targetFile));
+			outputStream.write(data);
+			created = true;
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			try {
-				outputStream.close();
+				if (outputStream != null)
+					outputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

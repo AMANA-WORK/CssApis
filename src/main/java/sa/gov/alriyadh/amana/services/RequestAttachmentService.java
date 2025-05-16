@@ -25,7 +25,7 @@ public class RequestAttachmentService implements IRequestAttachmentService {
     CssRequestMapper mapper;
 
     @Override
-    public Map<String, Object> insertNewAttach(CssRequestAttachmentDto cssRequestAttachmentDto) {
+    public CssRequestAttachment insertNewAttach(CssRequestAttachmentDto cssRequestAttachmentDto) {
         Map<String, Object> output = new LinkedHashMap<>();
         Integer nextSerial = attachmentRepository.getNextSerial(cssRequestAttachmentDto.getRequestNo());
         String fileName = cssRequestAttachmentDto.getRequestNo() + "_"
@@ -40,10 +40,10 @@ public class RequestAttachmentService implements IRequestAttachmentService {
         cssAttachment.setId(attachmentId);
         cssAttachment.setFilePath(filePath);
         attachmentRepository.save(cssAttachment);
-        output.put("RequestNO", cssAttachment.getId().getRequestNo());
-        output.put("AttachSerial", nextSerial);
-        output.put("output", "Operation successful.");
-        return output;
+//        output.put("RequestNO", cssAttachment.getId().getRequestNo());
+//        output.put("AttachSerial", nextSerial);
+//        output.put("output", "Operation successful.");
+        return cssAttachment;
     }
 
     @Override
