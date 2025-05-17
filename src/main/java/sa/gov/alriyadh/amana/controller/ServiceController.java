@@ -11,6 +11,7 @@ import sa.gov.alriyadh.amana.entity.CssParticipationType;
 import sa.gov.alriyadh.amana.entity.CssRequestAttachment;
 import sa.gov.alriyadh.amana.entity.CssRole;
 import sa.gov.alriyadh.amana.entity.dto.CssRequestAttachmentDto;
+import sa.gov.alriyadh.amana.pojo.CssRequestFilter;
 import sa.gov.alriyadh.amana.pojo.DirTypeData;
 import sa.gov.alriyadh.amana.pojo.RequestPhase;
 import sa.gov.alriyadh.amana.pojo.RoleActionView;
@@ -88,6 +89,18 @@ public class ServiceController {
 		return GenericApiResponse.returnJsonTemp("0",null,countries);
 	}
 
+	@GetMapping("/statusList")
+	public GenericApiResponse<?> getReqStatusList() {
+		List<Object[]> statusList = requestService.getReqStatusList();
+		return GenericApiResponse.returnJsonTemp("0",null,statusList);
+	}
+
+	@GetMapping("/reqAttachments/{requestNo}")
+	public GenericApiResponse<?> getReqAttachments(@PathVariable(required = true) Long requestNo) {
+		List<CssRequestAttachmentDto>  attachments = requestAttachmentService.getRequestAttachments(requestNo);
+		return GenericApiResponse.returnJsonTemp("0",null,attachments);
+	}
+
 	@PostMapping("/addNewRequest")
 	public GenericApiResponse<?> addNewRequest(@Valid @RequestBody CssRequestDto cssRequestDto){
 		Map<String, Object> output = requestService.addNewRequest(cssRequestDto);
@@ -106,15 +119,10 @@ public class ServiceController {
 		return GenericApiResponse.returnJsonTemp("0",null,reqttachment);
 	}
 
-	@GetMapping("/reqAttachments/{requestNo}")
-	public GenericApiResponse<?> getReqAttachments(@PathVariable(required = true) Long requestNo) {
-		List<CssRequestAttachmentDto>  attachments = requestAttachmentService.getRequestAttachments(requestNo);
-		return GenericApiResponse.returnJsonTemp("0",null,attachments);
-	}
-
-	@GetMapping("/requestByNumber/{requestNo}")
-	public GenericApiResponse<?> getReqByRequestNo(@PathVariable(required = true) Long requestNo) {
-		List<CssRequestDto>  requests = requestService.findByRequestNo(requestNo);
+	@PostMapping("/findRequests")
+	public GenericApiResponse<?> getRequestByFilter(@Valid @RequestBody CssRequestFilter filter) {
+		System.out.println(filter.getUserCode());
+		List<CssRequestDto> requests = requestService.findRequestsByFilter(filter);
 		return GenericApiResponse.returnJsonTemp("0",null,requests);
 	}
 

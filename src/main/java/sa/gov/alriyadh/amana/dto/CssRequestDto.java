@@ -1,5 +1,6 @@
 package sa.gov.alriyadh.amana.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import sa.gov.alriyadh.amana.entity.CssRequestAttachment;
@@ -27,16 +28,17 @@ public class CssRequestDto {
     private Integer participationType;
     @NotNull(message = "EventTypeCode is required.")
     private Integer eventTypeCode;
-    @NotNull
+
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @NotNull(message = "EventDate is required.")
     private String eventDate; // As String in the format yyyy/MM/dd HH:mm:ss
     private String scientificPaper;
     private String sessionName;
     @NotNull(message = "Must enter EventPlace 1 for internal or 2 for out of Amana.")
     private Integer eventPlace;
-    @NotNull@NotNull(message = "DirType is required.")
+    @NotNull(message = "DirType is required.")
     private Integer dirType;
-    @NotNull@NotNull(message = "DirCode is required.")
+    @NotNull(message = "DirCode is required.")
     private Integer dirCode;
     private Integer countryCode;
     private String cityName;

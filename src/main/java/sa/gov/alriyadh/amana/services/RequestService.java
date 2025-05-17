@@ -8,6 +8,7 @@ import sa.gov.alriyadh.amana.entity.CssRequest;
 import sa.gov.alriyadh.amana.entity.CssRequestPhase;
 import sa.gov.alriyadh.amana.entity.dto.CssRequestAttachmentDto;
 import sa.gov.alriyadh.amana.mapper.CssRequestMapper;
+import sa.gov.alriyadh.amana.pojo.CssRequestFilter;
 import sa.gov.alriyadh.amana.pojo.PhaseActionDetailView;
 import sa.gov.alriyadh.amana.pojo.RequestPhase;
 import sa.gov.alriyadh.amana.repository.CssPhaseActionRepository;
@@ -41,6 +42,11 @@ public class RequestService implements IRequestService {
     @Override
     public List<Object[]> getCountries() {
         return cssRequestRepository.getCountries();
+    }
+
+    @Override
+    public List<Object[]> getReqStatusList() {
+        return cssRequestRepository.getReqStatusList();
     }
 
     @Override
@@ -116,9 +122,16 @@ public class RequestService implements IRequestService {
     }
 
     @Override
-    public List<CssRequestDto> findByRequestNo(Long requestNo) {
-        return cssRequestRepository.findByRequestNo(requestNo).stream()
+    public List<CssRequestDto> findRequestsByFilter(CssRequestFilter filter) {
+        return cssRequestRepository.findRequestsByFilter(filter).stream()
                 .map(cssRequest -> mapper.toDto(cssRequest))
                 .collect(Collectors.toList());
     }
+
+//    @Override
+//    public List<CssRequestDto> findByRequestNo(Long requestNo) {
+//        return cssRequestRepository.findByRequestNo(requestNo).stream()
+//                .map(cssRequest -> mapper.toDto(cssRequest))
+//                .collect(Collectors.toList());
+//    }
 }

@@ -86,7 +86,8 @@ public class CssRequest {
     @Column(name = "COSTS_COVERED", nullable = false)
     private Integer costsCovered;
 
-    @Formula("(SELECT p.phase_desc FROM CSS.css_phases p WHERE p.phase_id = request_phase_id)")
+    //@Formula("(SELECT p.phase_desc FROM CSS.css_phases p WHERE p.phase_id = request_phase_id)")
+    @Transient
     private String requestStatus;
 
 }
