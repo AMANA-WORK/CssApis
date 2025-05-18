@@ -20,8 +20,7 @@ public class CssRequestRepositoryImpl implements CssRequestRepositoryCustom {
 
     @Override
     public List<CssRequest> findRequestsByFilter(CssRequestFilter filter) {
-        StringBuilder sql = new StringBuilder("SELECT req.*, (SELECT p.phase_desc FROM CSS.css_phases p " +
-                "WHERE p.phase_id = req.request_phase_id) REQUEST_STATUS" +
+        StringBuilder sql = new StringBuilder("SELECT req.*, ph.NOTES AS requestNotes, (SELECT p.phase_desc FROM CSS.css_phases p WHERE p.phase_id = req.request_phase_id) as requestStatus" +
                 " FROM CSS.css_requests req, CSS.css_request_phases ph ");
         sql.append("WHERE req.request_no = ph.request_no ");
         sql.append("AND req.request_phase_id = ph.to_phase_id ");
@@ -39,6 +38,10 @@ public class CssRequestRepositoryImpl implements CssRequestRepositoryCustom {
         if (filter.getRequestNo() != null) {
             sql.append("AND (req.request_no=:requestNo) ");
             params.put("requestNo", filter.getRequestNo());
+        }
+        if (filter.getStatusCode() != null) {
+            sql.append("AND (req.REQUEST_PHASE_ID=:statusCode) ");
+            params.put("statusCode", filter.getStatusCode());
         }
         if (filter.getDirCode() != null) {
             sql.append("AND (req.dir_code=:dirCode) ");
@@ -64,9 +67,9 @@ public class CssRequestRepositoryImpl implements CssRequestRepositoryCustom {
             sql.append("AND (req.country_code=:countryCode) ");
             params.put("countryCode", filter.getCountryCode());
         }
-        if (filter.getCityName() != null) {
-            sql.append("AND (req.city_name=:cityName) ");
-            params.put("cityName", filter.getCityName());
+        if (filter.getCityCode() != null) {
+            sql.append("AND (req.city_code=:cityName) ");
+            params.put("cityName", filter.getCityCode());
         }
 
         sql.append("ORDER BY req.request_no");

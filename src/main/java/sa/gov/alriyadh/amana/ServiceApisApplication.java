@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @SpringBootApplication
 //@EnableResourceServer
 @EnableAsync
-@OpenAPIDefinition(info=@Info(title="CommonApi Services Definition"))
+@OpenAPIDefinition(info=@Info(title="Participation in exhibitions and conferences Services Definition"))
 public class ServiceApisApplication {
 
 	public static void main(String[] args) {

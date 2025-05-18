@@ -3,10 +3,11 @@ package sa.gov.alriyadh.amana.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sa.gov.alriyadh.amana.dto.CssRequestDto;
 import sa.gov.alriyadh.amana.entity.CssRequest;
 import sa.gov.alriyadh.amana.entity.CssRequestPhase;
 import sa.gov.alriyadh.amana.entity.dto.CssRequestAttachmentDto;
+import sa.gov.alriyadh.amana.entity.dto.CssRequestDto;
+import sa.gov.alriyadh.amana.entity.dto.CssRequestPhaseDto;
 import sa.gov.alriyadh.amana.mapper.CssRequestMapper;
 import sa.gov.alriyadh.amana.pojo.CssRequestFilter;
 import sa.gov.alriyadh.amana.pojo.PhaseActionDetailView;
@@ -17,7 +18,11 @@ import sa.gov.alriyadh.amana.repository.CssRequestRepository;
 import sa.gov.alriyadh.amana.srinterface.IRequestService;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,6 +50,11 @@ public class RequestService implements IRequestService {
     }
 
     @Override
+    public List<Object[]> getCities(Integer countryCode) {
+        return cssRequestRepository.getCities(countryCode);
+    }
+
+    @Override
     public List<Object[]> getReqStatusList() {
         return cssRequestRepository.getReqStatusList();
     }
@@ -62,7 +72,7 @@ public class RequestService implements IRequestService {
         CssRequestPhase cssRequestPhase = new CssRequestPhase();
         cssRequestPhase.setRequestNo(savedRequestDto.getRequestNo());
         cssRequestPhase.setRequestPhaseSerial(nextRequestPhaseSerial);
-        cssRequestPhase.setCreateDate(LocalDate.now());
+        cssRequestPhase.setCreateDate(LocalDateTime.now());
         cssRequestPhase.setCreateUser(savedRequestDto.getEmployeeCode());
         cssRequestPhase.setFromPhaseId(actionDetail.getFromPhaseId());
         cssRequestPhase.setToPhaseId(actionDetail.getToPhaseId());
@@ -101,7 +111,7 @@ public class RequestService implements IRequestService {
             CssRequestPhase cssRequestPhase = new CssRequestPhase();
             cssRequestPhase.setRequestNo(requestPhase.getRequestNO());
             cssRequestPhase.setRequestPhaseSerial(nextRequestPhaseSerial);
-            cssRequestPhase.setCreateDate(LocalDate.now());
+            cssRequestPhase.setCreateDate(LocalDateTime.now());
             cssRequestPhase.setCreateUser(requestPhase.getIssueUser());
             cssRequestPhase.setFromPhaseId(actionDetail.getFromPhaseId());
             cssRequestPhase.setToPhaseId(actionDetail.getToPhaseId());
@@ -125,6 +135,13 @@ public class RequestService implements IRequestService {
     public List<CssRequestDto> findRequestsByFilter(CssRequestFilter filter) {
         return cssRequestRepository.findRequestsByFilter(filter).stream()
                 .map(cssRequest -> mapper.toDto(cssRequest))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CssRequestPhaseDto> getRequestPhases(long requestNo) {
+        return cssRequestPhaseRepository.findByRequestNo(requestNo).stream()
+                .map(cssRequestPhase -> mapper.toDto(cssRequestPhase))
                 .collect(Collectors.toList());
     }
 

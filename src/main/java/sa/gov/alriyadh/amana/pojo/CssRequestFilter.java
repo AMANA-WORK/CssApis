@@ -15,6 +15,7 @@ public class CssRequestFilter {
     private Integer roleId;
     private String userCode;
     private Long requestNo;
+    private Integer statusCode;
     private Integer dirCode;
     @JsonFormat(pattern = "yyyy/MM/dd HH24:mm:ss")
     private String eventDate; // Or LocalDateTime
@@ -22,6 +23,6 @@ public class CssRequestFilter {
     private Integer participationType;
     private Integer eventPlace;
     private Integer countryCode;
-    private String cityName;
+    private String cityCode;
 
 }

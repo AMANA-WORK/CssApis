@@ -72,11 +72,11 @@ public class CssRequest {
     private Integer dirCode;
 
     @Column(name = "COUNTRY_CODE")
-    private Integer countryCode;
+    private String countryCode;
 
     @Size(max = 200)
-    @Column(name = "CITY_NAME")
-    private String cityName;
+    @Column(name = "CITY_CODE")
+    private String cityCode;
 
     //@NotNull
     @Column(name = "PARTICIPATION_NUMBER", nullable = false)
@@ -86,8 +86,11 @@ public class CssRequest {
     @Column(name = "COSTS_COVERED", nullable = false)
     private Integer costsCovered;
 
-    //@Formula("(SELECT p.phase_desc FROM CSS.css_phases p WHERE p.phase_id = request_phase_id)")
-    @Transient
+    @Formula("(SELECT p.phase_desc FROM CSS.css_phases p WHERE p.phase_id = request_phase_id)")
+    //@Transient
     private String requestStatus;
+
+    @Formula("(SELECT p.NOTES FROM CSS.css_request_phases p WHERE p.request_no = request_no AND p.to_phase_id = request_phase_id)")
+    private String requestNotes;
 
 }

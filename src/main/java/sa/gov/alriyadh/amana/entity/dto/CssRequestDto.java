@@ -1,47 +1,52 @@
 package sa.gov.alriyadh.amana.entity.dto;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Value;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class CssRequestDto implements Serializable {
+public class CssRequestDto {
+
     private Long requestNo;
-    @NotNull
-    private LocalDate requestDate;
-    @NotNull
+    private String requestDate;
     private Integer requestPhaseId;
-    @NotNull(message = "{EMPLOYEE_NO_REQUIRED}")
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String requestStatus;
+
+    @NotNull(message = "EmployeeCode is required")
     private String employeeCode;
-    @NotNull
-    @Size(max = 11, message = "Mobile no must be 11 number")
+
     private String mobileNo;
-    @NotNull
+
+    @NotNull(message = "ParticipationType is required.")
     private Integer participationType;
-    @NotNull
+    @NotNull(message = "EventTypeCode is required.")
     private Integer eventTypeCode;
-    @NotNull
-    private LocalDate eventDate;
+
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+    @NotNull(message = "EventDate is required.")
+    private String eventDate; // As String in the format yyyy/MM/dd HH:mm:ss
     private String scientificPaper;
     private String sessionName;
-    @NotNull
+    @NotNull(message = "Must enter EventPlace 1 for internal or 2 for out of Amana.")
     private Integer eventPlace;
-    @NotNull
+    @NotNull(message = "DirType is required.")
     private Integer dirType;
-    @NotNull
+    @NotNull(message = "DirCode is required.")
     private Integer dirCode;
-    private Integer countryCode;
-    private Integer cityCode;
-    @NotNull
+    private String countryCode;
+    private String cityCode;
     private Integer participationNumber;
-    @NotNull
     private Integer costsCovered;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<CssRequestAttachmentDto> attachments;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String requestNotes;
+
 }

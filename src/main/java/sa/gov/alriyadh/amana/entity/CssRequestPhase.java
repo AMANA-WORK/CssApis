@@ -1,5 +1,7 @@
 package sa.gov.alriyadh.amana.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,6 +20,7 @@ public class CssRequestPhase {
     @Column(name = "REQUEST_PHASE_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CSS_REQUEST_PHASES_SEQ")
     @SequenceGenerator(name = "CSS_REQUEST_PHASES_SEQ", sequenceName = "CSS_REQUEST_PHASES_SEQ", allocationSize = 1,schema = "CSS")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long requestPhaseId;
 
     @NotNull
@@ -46,7 +50,7 @@ public class CssRequestPhase {
 
     @NotNull
     @Column(name = "CREATE_DATE", nullable = false)
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
     @Size(max = 15)
     @NotNull
