@@ -28,11 +28,20 @@ public class RequestAttachmentService implements IRequestAttachmentService {
     public CssRequestAttachment insertNewAttach(CssRequestAttachmentDto cssRequestAttachmentDto) {
         Map<String, Object> output = new LinkedHashMap<>();
         Integer nextSerial = attachmentRepository.getNextSerial(cssRequestAttachmentDto.getRequestNo());
+
+        String fileExtention = null;
+        if(cssRequestAttachmentDto.getFileType() != null && FileUtil.allowedTypes.stream()
+                .anyMatch(type -> type.equals(cssRequestAttachmentDto.getFileType()))) {
+            fileExtention = cssRequestAttachmentDto.getFileType().toLowerCase();
+        }else{
+            fileExtention = FileUtil.getFileBase64Extention(cssRequestAttachmentDto.getFileBase64());
+        }
+
         String fileName = cssRequestAttachmentDto.getRequestNo() + "_"
-                + String.format("%02d", nextSerial) + "." + FileUtil.getFileBase64Extention(cssRequestAttachmentDto.getFileBase64());
-        System.out.println(fileName);
-        String filePath = "C:"+FileUtil.getApiFileRoot() + fileName; // local
-        //String filePath = FileUtil.getApiFileRoot() + fileName; // server
+                + String.format("%02d", nextSerial) + "." + fileExtention;
+        //System.out.println(fileName);
+        //String filePath = "C:"+FileUtil.getApiFileRoot() + fileName; // local
+        String filePath = FileUtil.getApiFileRoot() + fileName; // server
         FileUtil.createFile(filePath, cssRequestAttachmentDto.getFileBase64());
         CssRequestAttachment cssAttachment = mapper.toEntity(cssRequestAttachmentDto);
         CssRequestAttachmentId attachmentId =

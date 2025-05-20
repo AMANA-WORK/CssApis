@@ -91,7 +91,7 @@ public class RequestService implements IRequestService {
             }
         }
 
-        output.put("output", "Operation successful.");
+        //output.put("output", "Operation successful.");
         output.put("RequestNO", savedRequestDto.getRequestNo());
         output.put("RequestStatus", actionDetail.getToPhaseDesc());
 
@@ -107,24 +107,30 @@ public class RequestService implements IRequestService {
         Integer nextRequestPhaseSerial = cssRequestPhaseRepository.getNextSerial(requestPhase.getRequestNO());
         Optional<CssRequest> request = cssRequestRepository.findById(requestPhase.getRequestNO());
         if (request.isPresent()) {
-            request.get().setRequestPhaseId(actionDetail.getToPhaseId());
-            CssRequestPhase cssRequestPhase = new CssRequestPhase();
-            cssRequestPhase.setRequestNo(requestPhase.getRequestNO());
-            cssRequestPhase.setRequestPhaseSerial(nextRequestPhaseSerial);
-            cssRequestPhase.setCreateDate(LocalDateTime.now());
-            cssRequestPhase.setCreateUser(requestPhase.getIssueUser());
-            cssRequestPhase.setFromPhaseId(actionDetail.getFromPhaseId());
-            cssRequestPhase.setToPhaseId(actionDetail.getToPhaseId());
-            cssRequestPhase.setFromRoleId(actionDetail.getFromRoleNo());
-            cssRequestPhase.setToRoleId(actionDetail.getToRoleNo());
-            cssRequestPhase.setNotes(requestPhase.getNotes());
-            cssRequestRepository.save(request.get());
-            cssRequestPhaseRepository.save(cssRequestPhase);
-            output.put("output", "Operation successful.");
-            output.put("RequestNO", requestPhase.getRequestNO());
-            output.put("RequestStatus", actionDetail.getToPhaseDesc());
+            if(request.get().getRequestPhaseId() < actionDetail.getToPhaseId()){
+                request.get().setRequestPhaseId(actionDetail.getToPhaseId());
+                CssRequestPhase cssRequestPhase = new CssRequestPhase();
+                cssRequestPhase.setRequestNo(requestPhase.getRequestNO());
+                cssRequestPhase.setRequestPhaseSerial(nextRequestPhaseSerial);
+                cssRequestPhase.setCreateDate(LocalDateTime.now());
+                cssRequestPhase.setCreateUser(requestPhase.getIssueUser());
+                cssRequestPhase.setFromPhaseId(actionDetail.getFromPhaseId());
+                cssRequestPhase.setToPhaseId(actionDetail.getToPhaseId());
+                cssRequestPhase.setFromRoleId(actionDetail.getFromRoleNo());
+                cssRequestPhase.setToRoleId(actionDetail.getToRoleNo());
+                cssRequestPhase.setNotes(requestPhase.getNotes());
+                cssRequestRepository.save(request.get());
+                cssRequestPhaseRepository.save(cssRequestPhase);
+                //output.put("output", "Operation successful.");
+                output.put("RequestNO", requestPhase.getRequestNO());
+                output.put("RequestStatus", actionDetail.getToPhaseDesc());
+            }else{
+                output.put("output", "Operation fail (Operation done in this phase).");
+                output.put("RequestNO", requestPhase.getRequestNO());
+            }
+
         }else{
-            output.put("output", "Operation fail (Request not found).");
+            output.put("output", "Operation fail (Action has already been taken - the action cannot be repeated at the same phase).");
             output.put("RequestNO", requestPhase.getRequestNO());
         }
 

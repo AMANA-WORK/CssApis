@@ -8,15 +8,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Base64;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.bind.DatatypeConverter;
 
 public class FileUtil {
+
+	public static Set<String> allowedTypes = new HashSet<>(Arrays.asList("pdf", "jpg", "png", "jpeg", "gif"));
 
 	public static String getSystemSeparator() {
 		return File.separator;

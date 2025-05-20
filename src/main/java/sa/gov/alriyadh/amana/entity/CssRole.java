@@ -1,5 +1,6 @@
 package sa.gov.alriyadh.amana.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +25,7 @@ public class CssRole {
 
     @NotNull
     @Column(name = "STATUS", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Integer status;
 
 }

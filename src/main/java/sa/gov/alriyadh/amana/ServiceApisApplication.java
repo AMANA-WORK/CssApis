@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @SpringBootApplication
-//@EnableResourceServer
+@EnableResourceServer
 @EnableAsync
 @OpenAPIDefinition(info=@Info(title="Participation in exhibitions and conferences Services Definition"))
 public class ServiceApisApplication {

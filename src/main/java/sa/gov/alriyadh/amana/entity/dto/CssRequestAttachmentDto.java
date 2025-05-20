@@ -11,5 +11,6 @@ public class CssRequestAttachmentDto {
     private Long requestNo;
     private Integer attacheSerial;
     private String fileDesc;
+    private String fileType; // pdf || jpg || png
     private String fileBase64; // <- contains file content, not path!
 }
