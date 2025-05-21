@@ -16,7 +16,7 @@ public class PhaseActionService implements IPhaseActionService {
     CssPhaseActionRepository actionRepository;
 
     @Override
-    public List<RoleActionView[]> getActions(Integer userRole) {
+    public List<RoleActionView> getActions(Integer userRole) {
         return actionRepository.getUserRoleActions(userRole);
     }
 

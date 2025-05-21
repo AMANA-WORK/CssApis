@@ -64,7 +64,7 @@ public class ServiceController {
 			@ApiResponse(responseCode = "200", description = "Get All available actions to selected role (user will choose or execute one action of them)", content = @Content(mediaType = "application/json"))})
 	@GetMapping("/roleActions/{userRole}")
 	public GenericApiResponse<?> getCssRoleActions(@PathVariable(required = true) int userRole){
-		List<RoleActionView[]> roleActions = phaseActionService.getActions(userRole);
+		List<RoleActionView> roleActions = phaseActionService.getActions(userRole);
 		return GenericApiResponse.returnJsonTemp("0",null,roleActions);
 	}
 
@@ -97,7 +97,7 @@ public class ServiceController {
 			@ApiResponse(responseCode = "200", description = "Get directorates by dir type.", content = @Content(mediaType = "application/json"))})
 	@GetMapping("/directorates/{dirType}")
 	public GenericApiResponse<?> getDirectorates(@PathVariable(required = true) Integer dirType) {
-		List<Object[]> directorates = requestService.getDirectorates(dirType);
+		List<Object> directorates = requestService.getDirectorates(dirType);
 		return GenericApiResponse.returnJsonTemp("0",null,directorates);
 	}
 
@@ -105,7 +105,7 @@ public class ServiceController {
 			@ApiResponse(responseCode = "200", description = "Get all countries.", content = @Content(mediaType = "application/json"))})
 	@GetMapping("/countries")
 	public GenericApiResponse<?> getCountries() {
-		List<Object[]> countries = requestService.getCountries();
+		List<Object> countries = requestService.getCountries();
 		return GenericApiResponse.returnJsonTemp("0",null,countries);
 	}
 
@@ -113,7 +113,7 @@ public class ServiceController {
 			@ApiResponse(responseCode = "200", description = "Get all country cities by country code.", content = @Content(mediaType = "application/json"))})
 	@GetMapping("/cities/{countryCode}")
 	public GenericApiResponse<?> getCities(@PathVariable(required = true) Integer countryCode) {
-		List<Object[]> cities = requestService.getCities(countryCode);
+		List<Object> cities = requestService.getCities(countryCode);
 		return GenericApiResponse.returnJsonTemp("0",null,cities);
 	}
 
@@ -121,7 +121,7 @@ public class ServiceController {
 			@ApiResponse(responseCode = "200", description = "Get status codes list.", content = @Content(mediaType = "application/json"))})
 	@GetMapping("/statusList")
 	public GenericApiResponse<?> getReqStatusList() {
-		List<Object[]> statusList = requestService.getReqStatusList();
+		List<Object> statusList = requestService.getReqStatusList();
 		return GenericApiResponse.returnJsonTemp("0",null,statusList);
 	}
 

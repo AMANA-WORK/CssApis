@@ -40,22 +40,22 @@ public class RequestService implements IRequestService {
     CssRequestMapper mapper;
 
     @Override
-    public List<Object[]> getDirectorates(Integer dirType) {
+    public List<Object> getDirectorates(Integer dirType) {
         return cssRequestRepository.getDirectorates(dirType);
     }
 
     @Override
-    public List<Object[]> getCountries() {
+    public List<Object> getCountries() {
         return cssRequestRepository.getCountries();
     }
 
     @Override
-    public List<Object[]> getCities(Integer countryCode) {
+    public List<Object> getCities(Integer countryCode) {
         return cssRequestRepository.getCities(countryCode);
     }
 
     @Override
-    public List<Object[]> getReqStatusList() {
+    public List<Object> getReqStatusList() {
         return cssRequestRepository.getReqStatusList();
     }
 
@@ -107,7 +107,8 @@ public class RequestService implements IRequestService {
         Integer nextRequestPhaseSerial = cssRequestPhaseRepository.getNextSerial(requestPhase.getRequestNO());
         Optional<CssRequest> request = cssRequestRepository.findById(requestPhase.getRequestNO());
         if (request.isPresent()) {
-            if(request.get().getRequestPhaseId() < actionDetail.getToPhaseId()){
+            if((requestPhase.getCurrentRole() == 1 && requestPhase.getActionId()==2 && request.get().getRequestPhaseId() ==1)
+                    || request.get().getRequestPhaseId() < actionDetail.getToPhaseId()){
                 request.get().setRequestPhaseId(actionDetail.getToPhaseId());
                 CssRequestPhase cssRequestPhase = new CssRequestPhase();
                 cssRequestPhase.setRequestNo(requestPhase.getRequestNO());
@@ -125,12 +126,12 @@ public class RequestService implements IRequestService {
                 output.put("RequestNO", requestPhase.getRequestNO());
                 output.put("RequestStatus", actionDetail.getToPhaseDesc());
             }else{
-                output.put("output", "Operation fail (Operation done in this phase).");
+                output.put("output", "Operation fail (Action has already been taken - the action cannot be repeated at the same phase).");
                 output.put("RequestNO", requestPhase.getRequestNO());
             }
 
         }else{
-            output.put("output", "Operation fail (Action has already been taken - the action cannot be repeated at the same phase).");
+            output.put("output", "Operation fail (Request is not found).");
             output.put("RequestNO", requestPhase.getRequestNO());
         }
 

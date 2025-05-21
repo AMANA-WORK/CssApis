@@ -11,10 +11,10 @@ import java.util.Map;
 
 public interface IRequestService {
 
-    List<Object[]> getDirectorates(Integer dirType);
-    List<Object[]> getCountries();
-    List<Object[]> getCities(Integer countryCode);
-    List<Object[]> getReqStatusList();
+    List<Object> getDirectorates(Integer dirType);
+    List<Object> getCountries();
+    List<Object> getCities(Integer countryCode);
+    List<Object> getReqStatusList();
     Map<String, Object> addNewRequest(CssRequestDto cssRequestDto);
     Map<String, Object> addRequestPhase(RequestPhase requestPhase);
     List<CssRequestDto> findRequestsByFilter(CssRequestFilter filter);

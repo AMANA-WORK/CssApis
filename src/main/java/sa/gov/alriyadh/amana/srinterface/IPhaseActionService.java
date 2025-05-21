@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IPhaseActionService {
 
-    List<RoleActionView[]> getActions(Integer userRole);
+    List<RoleActionView> getActions(Integer userRole);
     PhaseActionDetailView getRoleActionDetail(Integer userRole, Integer actionId);
 
 }
